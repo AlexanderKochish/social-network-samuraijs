@@ -33,7 +33,23 @@ export const addFollowAsyncThunk = createAsyncThunk(
     'users/addFollowAsyncThunk',
     async(userId, thunkApi) => {
         try {
-            const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}follow/${userId}`,{
+            const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}follow/${userId}`,{
+                headers: {
+                    'API-KEY': `${import.meta.env.VITE_API_KEY}`
+                }
+            })
+            return data
+        } catch (error) {
+           throw thunkApi.rejectWithValue(error) 
+        }    
+    }
+)
+
+export const unfollowAsyncThunk = createAsyncThunk(
+    'users/unfollowAsyncThunk',
+    async(userId, thunkApi) => {
+        try {
+            const { data } = await axios.delete(`${import.meta.env.VITE_BASE_URL}follow/${userId}`,{
                 headers: {
                     'API-KEY': `${import.meta.env.VITE_API_KEY}`
                 }
