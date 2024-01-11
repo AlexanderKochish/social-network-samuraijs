@@ -13,11 +13,27 @@ const initialState: IFollowState = {
     follow: false
 }
 
-export const followAsyncThunk = createAsyncThunk(
-    'users/followAsyncThunk',
+export const getFollowAsyncThunk = createAsyncThunk(
+    'users/getFollowAsyncThunk',
     async(userId, thunkApi) => {
         try {
             const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}follow/${userId}`, {
+                headers: {
+                    'API-KEY': `${import.meta.env.VITE_API_KEY}`
+                }
+            })
+            return data
+        } catch (error) {
+           throw thunkApi.rejectWithValue(error) 
+        }    
+    }
+)
+
+export const addFollowAsyncThunk = createAsyncThunk(
+    'users/addFollowAsyncThunk',
+    async(userId, thunkApi) => {
+        try {
+            const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}follow/${userId}`,{
                 headers: {
                     'API-KEY': `${import.meta.env.VITE_API_KEY}`
                 }
@@ -34,15 +50,15 @@ const followSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(followAsyncThunk.pending, (state) => {
+        builder.addCase(getFollowAsyncThunk.pending, (state) => {
             state.status = 'loading'
             state.error = null
         })
-        builder.addCase(followAsyncThunk.pending, (state, action: PayloadAction<any>) => {
+        builder.addCase(getFollowAsyncThunk.pending, (state, action: PayloadAction<any>) => {
             state.status = 'successed'
             state.follow = action.payload
         })
-        builder.addCase(followAsyncThunk.pending, (state, action: PayloadAction<any>) => {
+        builder.addCase(getFollowAsyncThunk.pending, (state, action: PayloadAction<any>) => {
             state.status = 'rejected'
             state.error = action.payload
         })
