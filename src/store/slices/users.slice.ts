@@ -60,22 +60,6 @@ export const searchUserAsyncThunk = createAsyncThunk<any, string, { state: RootS
     }
 )
 
-export const followAsyncThunk = createAsyncThunk(
-    'users/followAsyncThunk',
-    async(_, thunkApi) => {
-        try {
-            const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}`, {
-                headers: {
-                    'API-KEY': `${import.meta.env.VITE_API_KEY}`
-                }
-            })
-            return data
-        } catch (error) {
-           throw thunkApi.rejectWithValue(error) 
-        }    
-    }
-)
-
 const userSlice = createSlice({
     name: 'users',
     initialState,

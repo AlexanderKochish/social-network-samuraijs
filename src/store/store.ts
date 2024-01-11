@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import usersSlice from './slices/users.slice'
 import authSlice from './slices/auth.slice'
 import profileSlice from './slices/profile.slice'
+import followSlice from './slices/follow.slice'
 
 export const store = configureStore({
   reducer: {
     users: usersSlice,
     auth: authSlice,
-    profile: profileSlice
+    profile: profileSlice,
+    follow: followSlice
   },
 })
 
