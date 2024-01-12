@@ -37,6 +37,7 @@ const UserCard: React.FC<IUserCardProps> = ({ user }) => {
           </div>
         </li>
       </ul> 
+      <button>follow</button>
     </li>
   )
 }
