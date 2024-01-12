@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios";
+import { RootState } from "../store";
 
 interface IFollowState {
     status: 'loading' | 'successed' | 'rejected';
@@ -31,11 +32,13 @@ export const getFollowAsyncThunk = createAsyncThunk(
     }
 )
 
-export const addFollowAsyncThunk = createAsyncThunk(
+export const addFollowAsyncThunk = createAsyncThunk<any, any, { state: RootState }>(
     'users/addFollowAsyncThunk',
     async(userId, thunkApi) => {
         try {
-            const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}follow/${userId}`,{
+            const { data } = await axios({
+                method: 'POST',
+                url: `${import.meta.env.VITE_BASE_URL}follow/${userId}`,
                 headers: {
                     'API-KEY': `${import.meta.env.VITE_API_KEY}`
                 }

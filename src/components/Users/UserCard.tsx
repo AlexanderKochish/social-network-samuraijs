@@ -3,6 +3,7 @@ import placeholder from '../../images/avatar-1577909_1280.webp'
 import { useAppDispatch } from "../../store/hooks/hooks"
 import { getProfileAsyncThunk } from "../../store/slices/profile.slice"
 import { useNavigate } from "react-router-dom"
+import { addFollowAsyncThunk } from "../../store/slices/follow.slice"
 
 const UserCard: React.FC<IUserCardProps> = ({ user }) => {
   const dispatch = useAppDispatch()
@@ -13,6 +14,10 @@ const UserCard: React.FC<IUserCardProps> = ({ user }) => {
   const selectUserById = (id: number) => {
     dispatch(getProfileAsyncThunk(id))
     navigate(`profile/${id}`)
+  }
+
+  const addFollow = (id: number): void => {
+    dispatch(addFollowAsyncThunk(id))
   }
 
   return (
@@ -37,7 +42,7 @@ const UserCard: React.FC<IUserCardProps> = ({ user }) => {
           </div>
         </li>
       </ul> 
-      <button>follow</button>
+      <button onClick={() => addFollow(user.id)}>follow</button>
     </li>
   )
 }
