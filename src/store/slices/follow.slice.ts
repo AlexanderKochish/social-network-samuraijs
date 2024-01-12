@@ -41,7 +41,7 @@ export const addFollowAsyncThunk = createAsyncThunk<any, any, { state: RootState
                 url: `${import.meta.env.VITE_BASE_URL}follow/${userId}`,
                 headers: {
                     'API-KEY': `${import.meta.env.VITE_API_KEY}`
-                }
+                },
             })
             return data
         } catch (error) {
