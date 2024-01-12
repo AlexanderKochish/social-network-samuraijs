@@ -5,12 +5,14 @@ interface IFollowState {
     status: 'loading' | 'successed' | 'rejected';
     error: null;
     follow: boolean;
+    data: object;
 }
 
 const initialState: IFollowState = {
     status: 'loading',
     error: null,
-    follow: false
+    follow: false,
+    data: {}
 }
 
 export const getFollowAsyncThunk = createAsyncThunk(
@@ -77,7 +79,20 @@ const followSlice = createSlice({
         builder.addCase(getFollowAsyncThunk.pending, (state, action: PayloadAction<any>) => {
             state.status = 'rejected'
             state.error = action.payload
+        });
+
+        builder.addCase(addFollowAsyncThunk.pending, (state) => {
+            state.status = 'loading'
+            state.error = null
         })
+        builder.addCase(addFollowAsyncThunk.pending, (state, action: PayloadAction<any>) => {
+            state.status = 'successed'
+            state.data = action.payload
+        })
+        builder.addCase(addFollowAsyncThunk.pending, (state, action: PayloadAction<any>) => {
+            state.status = 'rejected'
+            state.error = action.payload
+        });
     },
 })
 
