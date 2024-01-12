@@ -15,7 +15,6 @@ const initialState: IFollowState = {
     follow: false,
     data: {}
 }
-
 export const getFollowAsyncThunk = createAsyncThunk(
     'users/getFollowAsyncThunk',
     async(userId, thunkApi) => {
