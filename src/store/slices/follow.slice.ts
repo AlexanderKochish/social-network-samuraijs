@@ -72,11 +72,11 @@ const followSlice = createSlice({
             state.status = 'loading'
             state.error = null
         })
-        builder.addCase(getFollowAsyncThunk.pending, (state, action: PayloadAction<any>) => {
+        builder.addCase(getFollowAsyncThunk.fulfilled, (state, action: PayloadAction<any>) => {
             state.status = 'successed'
             state.follow = action.payload
         })
-        builder.addCase(getFollowAsyncThunk.pending, (state, action: PayloadAction<any>) => {
+        builder.addCase(getFollowAsyncThunk.rejected, (state, action: PayloadAction<any>) => {
             state.status = 'rejected'
             state.error = action.payload
         });
@@ -85,11 +85,11 @@ const followSlice = createSlice({
             state.status = 'loading'
             state.error = null
         })
-        builder.addCase(addFollowAsyncThunk.pending, (state, action: PayloadAction<any>) => {
+        builder.addCase(addFollowAsyncThunk.fulfilled, (state, action: PayloadAction<any>) => {
             state.status = 'successed'
             state.data = action.payload
         })
-        builder.addCase(addFollowAsyncThunk.pending, (state, action: PayloadAction<any>) => {
+        builder.addCase(addFollowAsyncThunk.rejected, (state, action: PayloadAction<any>) => {
             state.status = 'rejected'
             state.error = action.payload
         });
