@@ -42,7 +42,12 @@ const UserCard: React.FC<IUserCardProps> = ({ user }) => {
           </div>
         </li>
       </ul> 
-      <button onClick={() => addFollow(user.id)}>follow</button>
+      <button 
+        className="px-2 bg-blue-600 hover:bg-blue-500 duration-300 text-white rounded-sm mt-1" 
+        onClick={() => addFollow(user.id)}
+      >
+        follow
+      </button>
     </li>
   )
 }
