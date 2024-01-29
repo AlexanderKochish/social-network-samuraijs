@@ -1,18 +1,18 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks"
 import { AiOutlineSearch } from "react-icons/ai";
-import { searchUserAsyncThunk, setUserName } from "../../store/slices/users.slice";
+import { setSearchString } from "../../store/slices/users/users.slice";
 
 const Header = () => {
     const { currentUser } = useAppSelector((state) => state.auth)
-    const { searchUserByName } = useAppSelector((state) => state.users)
+    const { searchString } = useAppSelector((state) => state.users)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
     const handleSearch = (): void => {
-        if(!searchUserByName.trim()) return
-        dispatch(searchUserAsyncThunk(searchUserByName))
-        dispatch(setUserName(''))
+        if(!searchString.trim()) return
+        dispatch(setSearchString(searchString))
+        dispatch(setSearchString(''))
         navigate('users')
     }
 
@@ -29,8 +29,8 @@ const Header = () => {
                         <input 
                             className="border-none outline-none p-1"
                             type="text" 
-                            value={searchUserByName} 
-                            onChange={(e) => dispatch(setUserName(e.target.value))}
+                            value={searchString} 
+                            onChange={(e) => dispatch(setSearchString(e.target.value))}
                         />
                         <button className="bg-blue-600 p-1 text-white hover:bg-blue-500" onClick={handleSearch}>Search</button>
                     </div>

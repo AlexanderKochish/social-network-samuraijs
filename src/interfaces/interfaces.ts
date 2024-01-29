@@ -49,6 +49,9 @@ export interface IProfileForm {
     status: string;
 }
 
+export type ISearchString = {
+    searchString: string
+}
 export interface IUserCardProps {
     user: IUser
 }

@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
-import { getAllUserAsyncThunk, setPage } from "../../store/slices/users.slice";
+import { useState } from "react";
+import { useGetAllUsersQuery, useSearchUserQuery } from "../../store/slices/users/users.api";
 import UserCard from "./UserCard";
 import PreLoader from "../UI/PreLoader";
-import { AiOutlineLeft } from "react-icons/ai";
-import { AiOutlineRight } from "react-icons/ai";
+import { useAppSelector } from "../../store/hooks/hooks";
+import Pagination from "../UI/Pagination";
 
 const Users = () => {
   const [curPage, setCurPage] = useState<number>(15);
   const [start, setStart] = useState(0);
-  const dispatch = useAppDispatch();
-  const { users, totalCount, page, count, status } = useAppSelector((state) => state.users);
-  let totalPages: number = Math.ceil(totalCount / count);
-
+  const [page, setPage] = useState(1)
+  let count = 9;
+  const { searchString } = useAppSelector((state) => state.users)
+  const { data, isLoading } = useGetAllUsersQuery({page: page, count})
+  const { data: findUser } = useSearchUserQuery(searchString)
+  let totalPages: number = Math.ceil(data?.totalCount / count);
+  
   const pagination = () => {
     let arrPages: number[] = [];
     for (let i: number = 0; i < totalPages; i++) {
@@ -34,47 +36,28 @@ const Users = () => {
     setCurPage((prevPage) => prevPage - 15);
   };
 
-  useEffect(() => {
-    dispatch(getAllUserAsyncThunk());
-  }, [page]);
 
   const hadleChangePage = (p: number): void => {
     localStorage.setItem('current_page', p.toString())
-    dispatch(setPage(p));
+    setPage(p)
   };
 
   return (
     <div className="max-w-[1200px] mx-auto h-screen flex flex-col pb-10">
-      <div className="flex items-start w-full justify-center space-x-5">
-        <button className="p-2 bg-black/80 rounded-full hover:bg-black duration-300" onClick={handlePrevPage}>
-        <AiOutlineLeft className='text-xl text-white'/>
-        </button>
-        <ul className="flex space-x-2 mb-4 items-center">
-          {pagination()?.map((p, i) => (
-            <li key={i}>
-              <button
-                onClick={() => hadleChangePage(p)}
-                className={
-                  p === page
-                    ? "border grid place-items-center px-1 w-10 h-10 text-white bg-red-600 text-base p-2 rounded-full"
-                    : "border grid place-items-center px-1 w-10 h-10 text-white bg-blue-600 text-base p-2 rounded-full"
-                }
-              >
-                {p}
-              </button>
-            </li>
-          ))}
-        </ul>
-        <button className="p-2 bg-black/80 rounded-full hover:bg-black duration-300" onClick={handleNextPage}>
-        <AiOutlineRight className='text-xl text-white'/>
-        </button>
-      </div>
-      
+      <Pagination 
+        hadleChangePage={hadleChangePage} 
+        pagination={pagination} 
+        handlePrevPage={handlePrevPage} 
+        handleNextPage={handleNextPage}  
+        page={page}
+      />
       <ul className="grid grid-cols-3 max-w-[1200px] mx-auto h-screen gap-3">
-        {status === "loading" ? (
+        {isLoading ? (
           <PreLoader />
         ) : (
-          users.map((user) => <UserCard key={user.id} user={user} />)
+          !searchString?
+          data?.items.map((user: any) => <UserCard key={user.id} user={user} />):
+          findUser?.items.map((user: any) => <UserCard key={user.id} user={user} />)
         )}
       </ul>
     </div>
