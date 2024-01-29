@@ -7,7 +7,7 @@ export const usersApi = createApi({
     // Get all users, current page and count
     getAllUsers: builder.query({
       query: ({ page, count }) => ({
-        url: `users?page=${page}&count=${count}`,
+        url: `users?page=${localStorage.getItem('current_page') || page}&count=${count}`,
         headers: {
           "API-KEY": `${import.meta.env.VITE_API_KEY}`,
         },

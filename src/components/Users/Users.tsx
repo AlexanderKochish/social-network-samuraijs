@@ -8,11 +8,11 @@ import Pagination from "../UI/Pagination";
 const Users = () => {
   const [curPage, setCurPage] = useState<number>(15);
   const [start, setStart] = useState(0);
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(localStorage.getItem('current_page') || 1)
   let count = 9;
   const { searchString } = useAppSelector((state) => state.users)
-  const { data, isLoading } = useGetAllUsersQuery({page: page, count})
-  const { data: findUser } = useSearchUserQuery(searchString)
+  const { data, isLoading } = useGetAllUsersQuery({page , count})
+  const { data: findUser } =  useSearchUserQuery(searchString, {skip: !searchString})
   let totalPages: number = Math.ceil(data?.totalCount / count);
   
   const pagination = () => {
